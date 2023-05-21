@@ -8,6 +8,8 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\UserSettingsController;
+use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\BarangController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,11 +48,13 @@ Route::middleware('revalidate')->group(function () {
         Route::controller(LogoutController::class)->group(function () {
             Route::post('/logout', 'logout')->name('logout');
         });
-        Route::name('dashboard')->group(function (){
+        Route::name('dashboard.')->group(function (){
             Route::prefix('/dashboard')->group(function (){
                 Route::controller(DashboardController::class)->group(function () {
                     Route::get('', 'index')->name('');
                 });
+                Route::resource('kategori', KategoriController::class)->except('create');
+                Route::resource('barang', BarangController::class)->except('create');
             });
         });
         Route::controller(UserSettingsController::class)->group(function () {

@@ -41,64 +41,33 @@
         <div class="sidebar-menu">
             <ul class="menu">
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="{{route('dashboard.')}}" class="sidebar-link">
                         <i class="bi bi-grid-fill"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
 
-                <li class="sidebar-title">Absensi</li>
+                <li class="sidebar-title">Master Data</li>
                 <li class="sidebar-item has-sub">
                     <a href="#" class="sidebar-link">
-                      <i class="bi bi-stack"></i>
-                      <span>Absensi</span>
+                        <i class="bi bi-box2"></i>
+                      <span>Sarana & Prasarana</span>
                     </a>
     
                     <ul class="submenu">
                         <li class="submenu-item">
-                            <a href="#" class="submenu-link">
-                                Absen Hari Ini
+                            <a href="{{route('dashboard.kategori.index')}}" class="submenu-link">
+                                Kategori
                             </a>
                         </li>
                         <li class="submenu-item">
-                            <a href="#" class="submenu-link">
-                                Rekapan Per Guru
-                            </a>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="#" class="submenu-link">
-                               Rekapan Per Tanggal
+                            <a href="{{route('dashboard.barang.index')}}" class="submenu-link">
+                                Sarana & Prasarana
                             </a>
                         </li>
                     </ul>
                 </li>
-                @can('admin')
-                <li class="sidebar-item has-sub">
-                    <a href="#" class="sidebar-link">
-                      <i class="bi bi-stack"></i>
-                      <span>Pengajuan Izin</span>
-                    </a>
-    
-                    <ul class="submenu">
-                        <li class="submenu-item">
-                            <a href="#" class="submenu-link">
-                                Pending
-                            </a>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="#" class="submenu-link">
-                                Disetujui
-                            </a>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="#" class="submenu-link">
-                                Ditolak
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                @endcan
-                <li class="sidebar-title">Konfigurasi</li>
+                {{-- <li class="sidebar-title">Konfigurasi</li>
                 <li class="sidebar-item has-sub">
                     <a href="#" class="sidebar-link">
                       <i class="bi bi-stack"></i>
@@ -122,7 +91,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
             </ul>
         </div>
     </div>
