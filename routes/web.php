@@ -55,6 +55,7 @@ Route::middleware('revalidate')->group(function () {
                 });
                 Route::resource('kategori', KategoriController::class)->except('create');
                 Route::resource('barang', BarangController::class)->except('create');
+                Route::put('/barang/stok/{id}',[BarangController::class, 'stok'])->name('barang.stok');
             });
         });
         Route::controller(UserSettingsController::class)->group(function () {

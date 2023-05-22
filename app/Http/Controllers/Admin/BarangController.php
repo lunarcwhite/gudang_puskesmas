@@ -8,6 +8,7 @@ use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Storage;
+use App\Models\RiwayatBarang;
 
 class BarangController extends Controller
 {
@@ -22,6 +23,11 @@ class BarangController extends Controller
     public function getKategori()
     {
         return Kategori::all();
+    }
+
+    public function getOneBarang($id)
+    {
+        return Barang::where('id',$id)->first();
     }
 
     public function index()
@@ -47,11 +53,13 @@ class BarangController extends Controller
         $validate = $request->validate([
             'nama_barang' => 'required|unique:barangs,nama_barang',
             'kategori_id' => 'required',
+            'stok_barang' => 'required|integer',
             'photo_barang' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         $foto = $request->photo_barang;
         $namaBarang = $request->nama_barang;
+        $stok = $request->stok_barang;
 
         if ($request->hasFile('photo_barang')) {
             $extension = $foto->extension();
@@ -61,19 +69,36 @@ class BarangController extends Controller
         } else {
             $fotoDb = null;
         }
+        try {
+            Barang::create([
+                'nama_barang' => $namaBarang,
+                'kategori_id' => $request->kategori_id,
+                'photo_barang' => $fotoDb,
+                'stok_barang' => $stok
+            ]);
+            $barang = Barang::latest()->first();
 
-        Barang::create([
-            'nama_barang' => $namaBarang,
-            'kategori_id' => $request->kategori_id,
-            'photo_barang' => $fotoDb,
-        ]);
-        $notification = [
-            'alert-type' => 'success',
-            'message' => 'Berhasil Menambah Barang',
-        ];
-        return redirect()
-            ->back()
-            ->with($notification);
+            RiwayatBarang::create([
+                'barang_id' => $barang->id,
+                'jumlah' => $stok,
+                'status' => 1
+            ]);
+            $notification = [
+                'alert-type' => 'success',
+                'message' => 'Berhasil Menambah Barang',
+            ];
+            return redirect()
+                ->back()
+                ->with($notification);
+        } catch (\Throwable $th) {
+            $notification = [
+                'alert-type' => 'error',
+                'message' => 'Gagal. Coba Ulangi',
+            ];
+            return redirect()
+                ->back()
+                ->with($notification);
+        }
     }
 
     /**
@@ -81,7 +106,8 @@ class BarangController extends Controller
      */
     public function show(Barang $barang)
     {
-        //
+        $data['barang'] = $this->getOneBarang($barang->id);
+        return view('admin.barang.show')->with($data);
     }
 
     /**
@@ -101,8 +127,17 @@ class BarangController extends Controller
         $validate = $request->validate([
             'nama_barang' => 'required',
             'kategori_id' => 'required',
+            'stok_barang' => 'required|integer',
             'photo_barang' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ]);
+        $jumlah = $request->stok_barang;
+        if($jumlah < $barang->stok_barang){
+            $notification = [
+                'alert-type' => 'error',
+                'message' => 'Tidak Bisa Mengurangi Stok Barang. Silahkan Klik Tombol Lihat Untuk Mengurangi Stok Barang',
+            ];
+            return redirect()->back()->with($notification);
+        }
         $foto = $request->photo_barang;
         $namaBarang = $request->nama_barang;
 
@@ -115,15 +150,22 @@ class BarangController extends Controller
         } else {
             $fotoDb = $barang->photo_barang;
         }
-
+        $jumlah = $request->stok_barang - $barang->stok_barang; 
         $barang->update([
             'nama_barang' => $namaBarang,
             'kategori_id' => $request->kategori_id,
+            'stok_barang' => $jumlah,
             'photo_barang' => $fotoDb,
+        ]);
+        
+        RiwayatBarang::create([
+            'barang_id' => $barang->id,
+            'status' => 1,
+            'jumlah' => $jumlah
         ]);
         $notification = [
             'alert-type' => 'success',
-            'message' => 'Update Berhasil',
+            'message' => 'Update Data Berhasil',
         ];
         return redirect()
             ->back()
@@ -144,7 +186,48 @@ class BarangController extends Controller
             'message' => 'Berhasil Menghapus',
         ];
         return redirect()
-            ->back()
-            ->with($notification);
+        ->back()
+        ->with($notification);
+    }
+    
+    public function stok(Request $request)
+    {
+        $validate = $request->validate([
+            'jumlah' => 'required|integer'
+        ]);
+        $barang = $this->getOneBarang($request->id);
+        $jumlah = $request->jumlah;
+        $stok = $barang->stok_barang;
+        
+        if($request->pilihan === "tambah"){
+            $pilihan = $stok + $jumlah;
+            $status = 1;
+            $barang->update([
+                'stok_barang' => $pilihan
+            ]);
+        }else{
+            $status = 0;
+            $pilihan = $stok - $jumlah;
+            if($jumlah > $stok){
+                $notification = [
+                    'alert-type' => 'error',
+                    'message' => 'Tidak Bisa Mengurangi Melebihi Jumlah Stok Saat Ini',
+                ];
+                return redirect()->back()->with($notification);
+            }
+        }
+        $barang->update([
+            'stok_barang' => $pilihan
+        ]);
+        RiwayatBarang::create([
+            'barang_id' => $barang->id,
+            'jumlah' => $jumlah,
+            'status' => $status
+        ]);
+        $notification = [
+            'alert-type' => 'success',
+            'message' => 'Berhasil Memperbarui Stok Barang',
+        ];
+        return redirect()->back()->with($notification);
     }
 }

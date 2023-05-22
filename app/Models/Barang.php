@@ -14,4 +14,8 @@ class Barang extends Model
     {
         return $this->belongsTo(Kategori::class, 'kategori_id', 'id');
     }
+    public function riwayat()
+    {
+        return $this->hasMany(RiwayatBarang::class, 'barang_id', 'id');
+    }
 }

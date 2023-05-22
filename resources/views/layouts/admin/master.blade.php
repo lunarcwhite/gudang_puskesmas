@@ -68,14 +68,14 @@
     @stack('js')
     <script>
         function clearInput(formId, label = "", action = "") {
-            document.getElementById(formId).action =
-                `{{ url('${action}') }}`;
             document.getElementById(formId).reset();
             $(".file").val("");
-            $('.image-preview').empty();
             $(`#labelModal`).text(label);
             $(`#btn-submit`).text('Simpan');
+            document.getElementById(formId).action =
+                `{{ url('${action}') }}`;
             $("#update").empty();
+            $('.image-preview').empty();
             $(".kapilih").removeAttr('selected');
         }
 

@@ -24,6 +24,7 @@
                         <th>No</th>
                         <th>Nama Barang</th>
                         <th>Kategori</th>
+                        <th>Stok</th>
                         <th>Photo</th>
                         <th>Aksi</th>
                     </thead>
@@ -33,6 +34,7 @@
                                 <td>{{ $no + 1 }}</td>
                                 <td>{{ $barang->nama_barang }}</td>
                                 <td>{{ $barang->kategori->nama_kategori }}</td>
+                                <td>{{$barang->stok_barang}}</td>
                                 @if ($barang->photo_barang === null)
                                     <td>Gambar Belum Diupload</td>
                                 @else
@@ -64,7 +66,7 @@
             </div>
         </div>
     </div>
-    @include('admin.barang.modalForm')
+    @include('admin.barang.modalBarang')
 @stop
 @push('js')
     <script>
@@ -76,6 +78,7 @@
                 dataType: 'json',
                 success: function(res) {
                     $("#nama_barang").val(res.nama_barang);
+                    $("#stok_barang").val(res.stok_barang);
                     $(`#kategori_id option[value="${res.kategori_id}"]`).attr("selected", "selected").attr('class', 'kapilih');
                     
                     if (res.photo_barang === null) {
