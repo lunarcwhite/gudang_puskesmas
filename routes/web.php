@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\UserSettingsController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\BarangController;
+use App\Http\Controllers\Admin\RekapanBarangController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,10 @@ Route::middleware('revalidate')->group(function () {
                 Route::resource('kategori', KategoriController::class)->except('create');
                 Route::resource('barang', BarangController::class)->except('create');
                 Route::put('/barang/stok/{id}',[BarangController::class, 'stok'])->name('barang.stok');
+                Route::controller(RekapanBarangController::class)->group(function () {
+                    Route::get('/rekapan', 'index')->name('rekapan.index');
+                    Route::post('/rekapan/print', 'print')->name('rekapan.print');
+                });
             });
         });
         Route::controller(UserSettingsController::class)->group(function () {

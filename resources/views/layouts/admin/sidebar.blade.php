@@ -60,6 +60,13 @@
                         <span>Barang</span>
                     </a>
                 </li>
+                <li class="sidebar-title">Laporan</li>
+                <li class="sidebar-item">
+                    <a href="{{ route('dashboard.rekapan.index') }}" class="sidebar-link">
+                        <i class="bi bi-clock-history"></i>
+                       <span> Rekapan Barang</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
