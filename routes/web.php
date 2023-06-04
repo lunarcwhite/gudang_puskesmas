@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -9,8 +9,8 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\UserSettingsController;
 use App\Http\Controllers\Admin\KategoriController;
-use App\Http\Controllers\Admin\BarangController;
-use App\Http\Controllers\Admin\RekapanBarangController;
+use App\Http\Controllers\Admin\KelolaObatController;
+use App\Http\Controllers\Admin\RekapanObatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,9 +55,9 @@ Route::middleware('revalidate')->group(function () {
                     Route::get('', 'index')->name('');
                 });
                 Route::resource('kategori', KategoriController::class)->except('create');
-                Route::resource('barang', BarangController::class)->except('create');
-                Route::put('/barang/stok/{id}',[BarangController::class, 'stok'])->name('barang.stok');
-                Route::controller(RekapanBarangController::class)->group(function () {
+                Route::resource('obat', KelolaObatController::class)->except('create');
+                Route::put('/obat/stok/{id}',[KelolaObatController::class, 'stok'])->name('obat.stok');
+                Route::controller(RekapanObatController::class)->group(function () {
                     Route::get('/rekapan', 'index')->name('rekapan.index');
                     Route::post('/rekapan/print', 'print')->name('rekapan.print');
                 });

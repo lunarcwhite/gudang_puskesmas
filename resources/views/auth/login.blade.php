@@ -2,67 +2,70 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vertical Navbar - Mazer Admin Dashboard</title>
-
-    <link rel="stylesheet" href="{{ asset('assets/compiled/css/app.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/compiled/css/auth.css') }}" />
-    <link rel="shortcut icon" href="{{ asset('assets/images/logo/favicon.svg') }}"
-        type="image/x-icon" />
-    <link rel="shortcut icon" href="{{ asset('assets/images/logo/favicon.png') }}"
-        type="image/png" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Login - SB Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            a{
+                text-decoration: none;
+            }
+        </style>
 </head>
 
-<body>
-    <div id="auth">
-        <div class="row h-100">
-            <div class="col-12">
-                <div id="auth-left">
-                    <h1 class="auth-title">Log in.</h1>
-                    <p class="auth-subtitle mb-3">
-                        Log in with your data that you entered during registration.
-                    </p>
-                    <form action="{{ route('authenticate') }}" method="post" id="authenticate">
-                        @csrf
-                        <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" class="form-control form-control-xl" placeholder="Username"
-                                name="username" />
-                            <div class="form-control-icon">
-                                <i class="bi bi-person"></i>
+<body class="bg-primary">
+    <div class="container mt-5 pt-3">
+        <div class="row justify-content-center mt-5">
+            <div class="col-6">
+                <div class="card shadow mb-2">
+                    <div class="card-header bg-white border border-bottom-0">
+                        <h2 class="card-title text-center">Form Login</h2>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{route('authenticate')}}" method="POST">
+                            @csrf
+                            <div class="my-2">
+                                <label class="form-label">Email or Username:</label>
+                                <input type="text" class="form-control" id="username" placeholder="Enter email or username"
+                                    name="username">
                             </div>
-                        </div>
-                        <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="password" class="form-control form-control-xl" placeholder="Password"
-                                name="password" />
-                            <div class="form-control-icon">
-                                <i class="bi bi-shield-lock"></i>
+                            <div class="my-2">
+                                <label class="form-label">Password:</label>
+                                <input type="password" class="form-control" id="password" placeholder="Enter password"
+                                    name="password">
                             </div>
-                        </div>
-                        <div class="form-check form-check-lg d-flex align-items-end">
-                            <input class="form-check-input me-2" type="checkbox" value="" id="flexCheckDefault" />
-                            <label class="form-check-label text-gray-600" for="flexCheckDefault">
-                                Keep me logged in
-                            </label>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">
-                            Log in
-                        </button>
-                    </form>
-                    <div class="text-center mt-5 text-lg fs-4">
-                        <p class="text-gray-600">
-                            Don't have an account?
-                            <a href="{{ route('register') }}" class="font-bold">Sign up</a>.
-                        </p>
-                        <p>
-                            <a class="font-bold" href="{{route('forgotPassword')}}">Forgot password?</a>.
-                        </p>
+                            <div class="form-check form-switch form-check-reverse">
+                                <input class="form-check-input" type="checkbox" role="switch" id="rememberMe">
+                                <label class="form-check-label" for="rememberMe">Remember Me</label>
+                            </div>
+                            <div class="text-end my-3">
+                                <button class="btn btn-info bg-gradient" type="submit">Login</button>
+                            </div>
+                            {{-- <div class="text-center my-2">
+                                <a href="#" class="link-dark">Forgot Password?</a>
+                            </div> --}}
+                            {{-- <div class="text-center mt-4 mb-2">
+                                                Or login with
+                                                <div class="my-2">
+                                                    <a class="btn btn-dark btn-sm" href="#" role="button">
+                                                        <i class="bi bi-github"></i> GitHub
+                                                    </a>
+                                                    <a class="btn btn-dark btn-sm" href="#" role="button">
+                                                        <i class="bi bi-google"></i> Google
+                                                    </a>
+                                                </div>
+                                            </div> --}}
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-@include('layouts.sweetalert')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    @include('layouts.scripts.sweetalert')
 </body>
 
 </html>

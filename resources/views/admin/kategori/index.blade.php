@@ -1,25 +1,20 @@
-@extends('layouts.admin.master')
-@section('title')
-    <h4>Data Kategori</h4>
-    <button type="button" onclick="clearInput('formKategori', 'Tambah Kategori','dashboard/kategori')" class="btn btn-primary" data-bs-toggle="modal"
-        data-bs-target="#modalKategori">
-        Tambah
-    </button>
+@extends('layouts.dashboard.master')
+@section('pageTitle')
+<h4>Data Kategori</h4>
 @stop
-@section('currentMenuLink')
-    {{ route('dashboard.kategori.index') }}
+@section('pageButton')
+<button type="button" onclick="clearInput('formKategori', 'Tambah Kategori','dashboard/kategori')" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#modalKategori">
+    Tambah
+</button>
+<a href="{{url()->previous()}}" class="btn btn-info">Kembali</a>
 @stop
-@section('currentMenu')
-    Data Kategori
-@stop
-@section('currentPage')
-    Daftar Kategori
-@endsection
 @section('content')
     <div class="row">
         <div class="col">
             <div class="table-responsive">
-                <table class="table table-hover" id="myTable">
+                <table id="myTable" class="table table-hover table-striped display nowrap"
+                        style="width:100%">
                     <thead>
                         <th>No</th>
                         <th>Nama Kategori</th>
@@ -43,7 +38,7 @@
                                             Edit
                                         </button>
                                         <button type="button" class="btn btn-danger"
-                                            onclick="formDelete('Hapus Data {{ $kategori->nama_kategori }}')">Hapus</button>
+                                            onclick="formConfirmation('Hapus Data {{ $kategori->nama_kategori }}')">Hapus</button>
                                     </form>
                                 </td>
                             </tr>
@@ -53,7 +48,7 @@
             </div>
         </div>
     </div>
-    @include('admin.kategori.modalForm')
+    @include('admin.kategori.modal_form_kategori')
 @stop
 @push('js')
     <script>
